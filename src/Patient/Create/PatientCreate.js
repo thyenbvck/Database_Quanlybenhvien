@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-const EmployeeInfoForm = () => {
+const PatientInfoForm = () => {
   const [userField, setUserField] = useState({
-    Ma_so_nhan_vien: "",
+    Ma_benh_nhan: "",
     CCCD: "",
     Ho: "",
     Ten: "",
     Gioi_tinh: "",
     Dia_chi: "",
     Email: "",
-    Ngay_ky_hop_dong: "",
-    Luong: "",
     Ngay_sinh: "",
   });
 
@@ -23,7 +21,7 @@ const EmployeeInfoForm = () => {
   const onSubmitChange = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/Employee/Create", {
+      const response = await fetch("http://localhost:3000/Patient/Create", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -48,15 +46,15 @@ const EmployeeInfoForm = () => {
     >
       <div className="form-row">
         <div className="col-md-4 mb-3">
-          <label htmlFor="ma_so_nhan_vien">Mã số nhân viên</label>
+          <label htmlFor="ma_so_nhan_vien">Mã bệnh nhân</label>
           <input
             type="text"
             className="form-control"
-            id="ma_so_nhan_vien"
-            placeholder="Mã số nhân viên"
-            value={userField.Ma_so_nhan_vien}
+            id="ma_benh_nhan"
+            placeholder="Mã bệnh nhân"
+            value={userField.Ma_benh_nhan}
             onChange={changeUserFieldHandler}
-            name="Ma_so_nhan_vien"
+            name="Ma_benh_nhan"
             required
           />
         </div>
@@ -149,35 +147,6 @@ const EmployeeInfoForm = () => {
           </div>
         </div>
         <div className="col-md-4 mb-3">
-          <label htmlFor="ngayKiHopDong">Ngày Kí Hợp Đồng</label>
-          <input
-            type="date"
-            className="form-control"
-            id="ngayKiHopDong"
-            value={userField.Ngay_ky_hop_dong}
-            onChange={changeUserFieldHandler}
-            name="Ngay_ky_hop_dong"
-            required
-          />
-          <div className="invalid-tooltip">
-            Vui lòng nhập ngày kí hợp đồng hợp lệ.
-          </div>
-        </div>
-        <div className="col-md-4 mb-3">
-          <label htmlFor="luong">Lương</label>
-          <input
-            type="text"
-            className="form-control"
-            id="luong"
-            placeholder="Lương"
-            value={userField.Luong}
-            onChange={changeUserFieldHandler}
-            name="Luong"
-            required
-          />
-          <div className="invalid-tooltip">Vui lòng nhập số tiền lương.</div>
-        </div>
-        <div className="col-md-4 mb-3">
           <label htmlFor="ngaySinh">Ngày Sinh</label>
           <input
             type="date"
@@ -195,4 +164,4 @@ const EmployeeInfoForm = () => {
     </form>
   );
 };
-export default EmployeeInfoForm;
+export default PatientInfoForm;

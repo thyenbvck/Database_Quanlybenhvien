@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./DisplayInfo.css";
-const DisplayEmployeeInfo = () => {
+const DisplayPatientInfo = () => {
   const [userData, setUSerData] = useState([]);
   const Navigate = useNavigate();
   useEffect(() => {
@@ -11,24 +11,24 @@ const DisplayEmployeeInfo = () => {
 
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3000/Employee");
+      const result = await axios("http://localhost:3000/Patient");
       setUSerData(result.data.recordset);
     } catch (err) {
       console.log("somthing Wrong");
     }
   };
-  const handleAddDoctor = () => {
-    Navigate("/Employee/Create");
+  const handleAddPatient = () => {
+    Navigate("/Patient/Create");
   };
   const handleViewDetails = (userId) => {
-    Navigate(`/Employee/${userId}`);
+    Navigate(`/Patient/${userId}`);
   };
   return (
     <div className="container">
       <h3>User Details</h3>
       <div className="mb-3">
-        <button className="btn btn-primary" onClick={handleAddDoctor}>
-          Thêm nhân viên
+        <button className="btn btn-primary" onClick={handleAddPatient}>
+          Thêm bệnh nhân
         </button>
       </div>
       <table className="table table-bordered">
@@ -47,7 +47,6 @@ const DisplayEmployeeInfo = () => {
                 <td>{user.Ma_so_nhan_vien} </td>
                 <td>{user.Ho} </td>
                 <td>{user.Ten} </td>
-                <td>{user.Chuyen_khoa} </td>
               </tr>
             );
           })}
@@ -57,4 +56,4 @@ const DisplayEmployeeInfo = () => {
   );
 };
 
-export default DisplayEmployeeInfo;
+export default DisplayPatientInfo;

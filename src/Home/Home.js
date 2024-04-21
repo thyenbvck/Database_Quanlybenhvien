@@ -1,7 +1,9 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom"; // Import Routes và Route từ react-router-dom
-import DisplayInfo from "../Employee/Display/DisplayInfo.js";
-import PersonalInfoForm from "../Employee/Create/EmployeeCreate.js";
+import DisplayEmployeeInfo from "../Employee/Display/DisplayInfo.js";
+import DisplayPatientInfo from "../Patient/Display/DisplayInfo.js";
+import EmployeeInfoForm from "../Employee/Create/EmployeeCreate.js";
+import PatientInfoForm from "../Patient/Create/PatientCreate.js";
 
 const Home = () => {
   return (
@@ -54,8 +56,10 @@ const Home = () => {
         </div>
       </nav>
       <Routes>
-        <Route path="/Employee" element={<DisplayInfo />} />
-        <Route path="/Employee/Create" element={<PersonalInfoForm />} />
+        <Route path="/Employee" element={<DisplayEmployeeInfo />} />
+        <Route path="/Employee/Create" element={<EmployeeInfoForm />} />
+        <Route path="/Patient" element={<DisplayPatientInfo />} />
+        <Route path="/Patient/Create" element={<PatientInfoForm />} />
       </Routes>
     </div>
   );
