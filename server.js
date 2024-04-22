@@ -81,4 +81,6 @@ app.post("/Patient/Create", async (req, res) => {
 //   console.log(res.recordset);
 // });
 
+// dbOperation.getEmployees();
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

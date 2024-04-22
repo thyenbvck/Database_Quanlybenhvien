@@ -7,7 +7,6 @@
 .container td,
 .container th {
   border: 1px solid #ddd;
-  padding: 8px;
 }
 
 .container tr:nth-child(even) {
@@ -24,4 +23,5 @@
   text-align: left;
   background-color: #04aa6d;
   color: white;
+  width: 10%;
 }
