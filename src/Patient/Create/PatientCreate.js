@@ -12,14 +12,19 @@ const PatientInfoForm = () => {
   });
 
   const changeUserFieldHandler = (e) => {
+    let value = e.target.value;
+    if (e.target.name === "Gioi_tinh") {
+      value = value === "Nam" ? "Nam" : "Nu";
+    }
     setUserField({
       ...userField,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
   const onSubmitChange = async (e) => {
     e.preventDefault();
+    console.log(JSON.stringify(userField));
     try {
       const response = await fetch("http://localhost:3000/Patient/Create", {
         method: "POST",
@@ -46,7 +51,7 @@ const PatientInfoForm = () => {
     >
       <div className="form-row">
         <div className="col-md-4 mb-3">
-          <label htmlFor="ma_so_nhan_vien">Mã bệnh nhân</label>
+          <label htmlFor="ma_benh_nhan">Mã bệnh nhân</label>
           <input
             type="text"
             className="form-control"
@@ -98,25 +103,6 @@ const PatientInfoForm = () => {
           />
         </div>
         <div className="col-md-4 mb-3">
-          <label htmlFor="gioiTinh">Giới Tính</label>
-          <select
-            className="custom-select"
-            input
-            type="Gioitinh"
-            id="gioiTinh"
-            value={userField.Gioi_tinh}
-            onChange={changeUserFieldHandler}
-            name="Gioi_tinh"
-            required
-          >
-            <option value="">Chọn...</option>
-            <option>Nam</option>
-            <option>Nữ</option>
-            <option>Khác</option>
-          </select>
-          <div className="invalid-tooltip">Vui lòng chọn giới tính.</div>
-        </div>
-        <div className="col-md-4 mb-3">
           <label htmlFor="diaChi">Địa Chỉ</label>
           <input
             type="text"
@@ -145,6 +131,25 @@ const PatientInfoForm = () => {
           <div className="invalid-tooltip">
             Vui lòng nhập địa chỉ email hợp lệ.
           </div>
+        </div>
+        <div className="col-md-4 mb-3">
+          <label htmlFor="gioiTinh">Giới Tính</label>
+          <select
+            className="custom-select"
+            input
+            type="Gioitinh"
+            id="gioiTinh"
+            value={userField.Gioi_tinh}
+            onChange={changeUserFieldHandler}
+            name="Gioi_tinh"
+            required
+          >
+            <option value="">Chọn...</option>
+            <option>Nam</option>
+            <option>Nữ</option>
+            <option>Khác</option>
+          </select>
+          <div className="invalid-tooltip">Vui lòng chọn giới tính.</div>
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="ngaySinh">Ngày Sinh</label>
