@@ -1,8 +1,8 @@
 const config = {
-  server: "Quan",
+  server: "MSI",
   database: "assignment2",
-  user: "MyUser",
-  password: "quangamingvn123",
+  user: "nhunng",
+  password: "131131",
   driver: "ODBC Driver 17 for SQL Server",
   options: {
     trustServerCertificate: true,

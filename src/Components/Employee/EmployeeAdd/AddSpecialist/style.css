@@ -1,0 +1,11 @@
+.Add-button:hover .cir {
+    stroke: black;
+}
+
+.Add-button:hover .plus {
+    fill: black;
+}
+
+.Delete-button:hover {
+    cursor: not-allowed;
+}

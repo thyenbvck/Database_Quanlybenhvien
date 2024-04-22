@@ -45,4 +45,7 @@ app.post("/Employee/Create", async (req, res) => {
   }
 });
 
+dbOperation.getEmployees();
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
