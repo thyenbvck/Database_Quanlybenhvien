@@ -17,6 +17,10 @@ const content_nav = {
     name: "Thuốc",
     path: "/medicine",
   },
+  room: {
+    name: "Phòng bệnh",
+    path: "/room",
+  },
 };
 
 function Sidebar(props) {

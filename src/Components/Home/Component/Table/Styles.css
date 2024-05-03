@@ -1,0 +1,28 @@
+
+.blue-section {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+}
+
+table {
+    margin: auto;
+    width: 90%;
+}
+
+th, td {
+    text-align: center;
+}
+
+th {
+    color: black;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+.tabletitle {
+    background-color: #CDDBFE;
+}

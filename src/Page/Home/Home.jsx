@@ -1,8 +1,11 @@
+import HomeDisplay from "../../Components/Home/Home"
+
 function Home() {
-  return (
-      <div>
-            <h1 className="text-pink">Home</h1>
-      </div>
-    );
+    return (
+        <div className="w-full h-full">
+            <HomeDisplay />
+        </div>
+    )
 }
+
 export default Home;

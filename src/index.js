@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import DefaultLayout from "./DefaultLayout";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {Fragment} from "react";
 import {publicRoutes} from "./routes";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import DefaultLayout from "./DefaultLayout";
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

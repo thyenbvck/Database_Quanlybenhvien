@@ -1,7 +1,8 @@
 import Home from "../Page/Home/Home";
 import Employee from "../Page/Employee/Employee";
 import Patient from "../Page/Patient/Patient";
-
+import Medicine  from "../Page/Medicine/Medicine";
+import Room  from "../Page/Room/Room";
 
 const publicRoutes = [
     {
@@ -16,14 +17,14 @@ const publicRoutes = [
         path: '/employee',
         component: Employee,
     },
-    // {
-    //     path: '/medicine',
-    //     component: Medicine,
-    // },
-    // {
-    //     path: '/equipment',
-    //     component: Equipment,
-    // },
+    {
+        path: '/medicine',
+        component: Medicine,
+    },
+    {
+        path: '/room',
+        component: Room,
+    },
     
 ]
 

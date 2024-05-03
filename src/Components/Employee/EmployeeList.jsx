@@ -82,6 +82,7 @@ function EmployeeList() {
                             <EmployeeCard></EmployeeCard>
                             <EmployeeCard></EmployeeCard>
                         </div>
+                        
                     </div>
                 </TableEmployee>
                 <div className='flex items-center w-[1080px] justify-between p-[10px] mt-[24px]'>

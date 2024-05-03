@@ -11,6 +11,7 @@ const getEmployees = async () => {
     console.log(error);
   }
 };
+
 const createEmployees = async (Employee) => {
   try {
     let pool = await sql.connect(config);
@@ -43,4 +44,24 @@ const createEmployees = async (Employee) => {
     console.log(error);
   }
 };
-module.exports = { getEmployees, createEmployees };
+
+const createRoom = async (Room) => {
+  try {
+    let pool = await sql.connect(config);
+    let rooms = await pool
+      .request()
+      .input("So_phong", Room.So_phong)
+      .input("Loai_phong", Room.Loai_phong)
+      .input("So_luong_benh_nhan_hien_tai", Room.So_luong_benh_nhan_hien_tai)
+      .query(` INSERT INTO phong_benh VALUES (
+        @So_phong,
+        @Loai_phong,
+        @So_luong_benh_nhan_hien_tai
+      )`);
+    return rooms;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getEmployees, createEmployees, createRoom };

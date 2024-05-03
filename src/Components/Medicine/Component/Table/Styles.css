@@ -1,0 +1,28 @@
+
+.blue-section {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background-color: rgba(205, 219, 254, 1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    max-height:500px;
+    table-layout: fixed;
+    margin: auto;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 20px 15px;
+    text-align: center;
+}
+
+th {
+    background-color:  rgba(205, 219, 254, 1);
+    color: black;
+    font-weight: bold;
+}

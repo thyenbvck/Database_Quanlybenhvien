@@ -1,5 +1,6 @@
 const express = require("express");
 const Employee = require("./DBfile/Employee");
+const Room = require("./DBfile/Room")
 const dbOperation = require("./DBfile/dbOperation.js");
 const cors = require("cors");
 
@@ -41,6 +42,28 @@ app.post("/Employee/Create", async (req, res) => {
     res.status(201).json({ message: "Employee created successfully" });
   } catch (error) {
     console.error("Error creating employee:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/Room/Create", async (req, res) => {
+  try {
+    const {
+      So_phong,
+      Loai_phong,
+      So_luong_benh_nhan_hien_tai,
+    } = req.body;
+
+    const newRoom = new Room(
+      So_phong,
+      Loai_phong,
+      So_luong_benh_nhan_hien_tai,
+    );
+
+    await dbOperation.createRoom(newRoom);
+    res.status(201).json({ message: "Room created successfully" });
+  } catch (error) {
+    console.error("Error creating room:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
