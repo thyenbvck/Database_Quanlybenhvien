@@ -12,7 +12,8 @@ function AddNew({ onClick }) {
                     <p className="text-[#032B91] text-lg font-bold leading-6>{props.value}">Nhân viên mới</p>
                 </div>
             </div>
-        </div>    
+        </div>
+        
     )
 }
 

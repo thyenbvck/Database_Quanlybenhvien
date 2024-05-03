@@ -2,7 +2,7 @@ import "./style.css"
 import { useState } from "react";
 
 
-function Degree({handleRemove, handleChangeValue, index}) {
+function Degree({handleRemove, handleChangeValue, index, value}) {
     const [degree, setDegree] = useState();
     const handleRemoveButton = (e) => {
         e.preventDefault();
@@ -12,7 +12,7 @@ function Degree({handleRemove, handleChangeValue, index}) {
 
     return (
         <div className="flex justify-between items-center mb-[20px]">
-            <input className="w-[902px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="Bằng cấp / Chứng chỉ"
+            <input className="w-[902px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" value={value} placeholder="Bằng cấp / Chứng chỉ"
                 onChange={(e) => {
                     handleChangeValue("degree", (index+1).toString() + e.target.value);
                     setDegree(e.target.value);

@@ -5,6 +5,12 @@ import {Fragment} from "react";
 import {publicRoutes} from "./routes";
 import DefaultLayout from "./DefaultLayout";
 import './index.css';
+import { makeServer } from './server.js';
+
+if (process.env.NODE_ENV === 'development') {
+  console.log("connect");
+  makeServer({ environment: 'development' });
+} 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

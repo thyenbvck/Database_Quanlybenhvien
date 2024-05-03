@@ -1,9 +1,9 @@
-.Add-button:hover .cir {
+button:hover .icon-wrapper svg .cir {
     fill: #BEE1F9;
-    stroke:none;
+    stroke: none;
 }
 
-.Add-button:hover .plus {
+button:hover .icon-wrapper svg .plus {
     fill: #F9FBFF;
 }
 
