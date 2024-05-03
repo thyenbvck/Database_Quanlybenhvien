@@ -1,16 +1,21 @@
 const express = require("express");
-const Employee = require("./DBfile/Employee");
-const Room = require("./DBfile/Room")
-const dbOperation = require("./DBfile/dbOperation.js");
+const Employee = require("./src/DBfile/Employee.js");
+const Room = require("./src/DBfile/Room.js");
+const dbOperation = require("./src/DBfile/dbOperation.js");
 const cors = require("cors");
 
 const app = express();
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-app.post("/Employee/Create", async (req, res) => {
+app.post("/employee/create", async (req, res) => {
   try {
     const {
       Ma_so_nhan_vien,
@@ -46,19 +51,11 @@ app.post("/Employee/Create", async (req, res) => {
   }
 });
 
-app.post("/Room/Create", async (req, res) => {
+app.post("/room/create", async (req, res) => {
   try {
-    const {
-      So_phong,
-      Loai_phong,
-      So_luong_benh_nhan_hien_tai,
-    } = req.body;
+    const { So_phong, Loai_phong, So_luong_benh_nhan_hien_tai } = req.body;
 
-    const newRoom = new Room(
-      So_phong,
-      Loai_phong,
-      So_luong_benh_nhan_hien_tai,
-    );
+    const newRoom = new Room(So_phong, Loai_phong, So_luong_benh_nhan_hien_tai);
 
     await dbOperation.createRoom(newRoom);
     res.status(201).json({ message: "Room created successfully" });
@@ -68,7 +65,15 @@ app.post("/Room/Create", async (req, res) => {
   }
 });
 
-dbOperation.getEmployees();
+app.get("/patient", async (req, res) => {
+  try {
+    const patients = await dbOperation.getPatients();
+    res.json(patients);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// dbOperation.getEmployees();
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-

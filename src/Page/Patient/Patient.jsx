@@ -1,9 +1,11 @@
+import DisplayPatientInfo from "./Display/DisplayInfo";
+
 function Patient() {
-    return (
-        <div>
-            <h1 className="text-green">Patient</h1>
-        </div>
-    )
+  return (
+    <div>
+      <DisplayPatientInfo />
+    </div>
+  );
 }
 
 export default Patient;

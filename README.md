@@ -69,4 +69,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-npm install msnodesqlv8 react-router-dom axios bootstrap mssql cors
+npm install msnodesqlv8 react-router-dom axios bootstrap mssql cors react-scripts nodemon express

@@ -4,9 +4,20 @@ const config = require("./dbConfig"),
 const getEmployees = async () => {
   try {
     let pool = await sql.connect(config);
-    let employees = await pool.request().query("SELECT * FROM dbo.nhan_vien");
-    console.log(employees);
-    return employees;
+    let employees = await pool.request().query("SELECT * FROM nhan_vien");
+    return employees.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getEmployeeByID = async (ID) => {
+  try {
+    const pool = await sql.connect(config);
+    const employee = await pool
+      .request()
+      .query(`SELECT * FROM nhan_vien WHERE Ma_so_nhan_vien = '${ID}'`);
+    return employee.recordset;
   } catch (error) {
     console.log(error);
   }
@@ -64,4 +75,20 @@ const createRoom = async (Room) => {
   }
 };
 
-module.exports = { getEmployees, createEmployees, createRoom };
+const getPatients = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const patients = await pool.request().query("SELECT * FROM benh_nhan");
+    return patients.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  getEmployees,
+  createEmployees,
+  createRoom,
+  getPatients,
+  getEmployeeByID,
+};
