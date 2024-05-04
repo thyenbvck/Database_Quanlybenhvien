@@ -85,10 +85,21 @@ const getPatients = async () => {
   }
 };
 
+const getMedicines = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const medicines = await pool.request().query("SELECT * FROM thuoc");
+    return medicines.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getEmployees,
   createEmployees,
   createRoom,
   getPatients,
   getEmployeeByID,
+  getMedicines,
 };

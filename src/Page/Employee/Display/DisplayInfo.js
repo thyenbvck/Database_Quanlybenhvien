@@ -11,7 +11,7 @@ const DisplayEmployeeInfo = () => {
 
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3000/Employee");
+      const result = await axios("http://localhost:3000/employee");
       setUSerData(result.data.recordset);
     } catch (err) {
       console.log("somthing Wrong");
