@@ -95,6 +95,31 @@ const getMedicines = async () => {
   }
 };
 
+const getHistory = async (patientId) => {
+  try {
+    const pool = await sql.connect(config);
+    const history = await pool
+      .request()
+      .query(`SELECT * FROM lich_su_kham_benh(${patientId})`);
+    return history.recordset;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getEmptySchedule = async (Ho, Ten, Ngay, Ca) => {
+  try {
+    const pool = await sql.connect(config);
+    const scheduleList = await pool
+      .request()
+      .query(
+        `SELECT * FROM Lich_trong(N'${Ho}', N'${Ten}', '${Ngay}', '${Ca}')`
+      );
+    return scheduleList.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   getEmployees,
   createEmployees,
@@ -102,4 +127,6 @@ module.exports = {
   getPatients,
   getEmployeeByID,
   getMedicines,
+  getEmptySchedule,
+  getHistory,
 };

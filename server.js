@@ -83,6 +83,15 @@ app.get("/medicine", async (req, res) => {
   }
 });
 
+app.get("/employee", async (req, res) => {
+  try {
+    const employees = await dbOperation.getEmployees();
+    res.json(employees);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // dbOperation.getEmployees();
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
