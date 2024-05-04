@@ -35,8 +35,8 @@ function DisplayPatientInfo() {
         <thead>
           <tr>
             <th>Mã bệnh nhân</th>
-            <th>Họ</th>
-            <th>Tên</th>
+            <th>Họ tên</th>
+            <th>SĐT</th>
           </tr>
         </thead>
         <svg
@@ -59,8 +59,10 @@ function DisplayPatientInfo() {
             return (
               <tr key={i}>
                 <td>{user.Ma_benh_nhan} </td>
-                <td>{user.Ho} </td>
-                <td>{user.Ten} </td>
+                <td>
+                  {user.Ho} + {user.Ten}
+                </td>
+                <td>{user.So_dien_thoai} </td>
               </tr>
             );
           })}
