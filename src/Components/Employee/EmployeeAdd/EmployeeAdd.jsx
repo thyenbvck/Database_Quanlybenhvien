@@ -3,9 +3,6 @@ import HuyButton from "../../Button/Huy_Button";
 import LuuButton from "../../Button/Luu_Button";
 
 import AddInfo from "./AddInfo";
-import AddSpecialist from "./AddSpecialist";
-import AddSchedule from "./AddSchedule";
-import AddPatient from "./AddPatient";
 import NotiPopup from "../Component/NotiPopup";
 
 
@@ -21,7 +18,6 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
 
     const [newEmpInfo, setNewEmpInfo] = useState({
         name: "abc",
-        imgURL: null,
         lastName: null,
         firstName: null,
         dob: null,
@@ -30,15 +26,9 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
         phone: null,
         address: null,
         email: null,
-        med: null,
-        type: null,
-        faculty: null,
-        position: null,
-        jobTitle: null,
+        salary: null,
         dateBegin: null,
-        dateEnd: null,
-        degree: [],
-        scheduler: {} 
+        type: "Khác"
     });
 
     useEffect(() => {
@@ -66,10 +56,11 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
     
     const handleCloseNotiPopup = () => {
         setShowNotiPopup(false);
+        handleCloseAdd();
     }
 
     const handleAlertClose = () => {
-        if (['lastName', 'firstName', 'dob', 'gender', 'ssn', 'phone', 'address', 'type', 'faculty', 'position', 'jobTitle', 'dateBegin'].every(field => newEmpInfo[field] === null || newEmpInfo[field] === "")) {
+        if (["lastName", "firstName", "dob", "gender", "address", "ssn", "phone", "dateBegin", "salary", "email"].every(value => newEmpInfo[value] === null || newEmpInfo[value] === "")) {
             handleCloseAdd();
         }
         else {
@@ -79,39 +70,14 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
     }
 
     const handleSaveTest = () => {
-        if (content === "info") {
-            if (['lastName', 'firstName', 'dob', 'gender', 'ssn', 'phone', 'address'].every(field => newEmpInfo[field] !== null && newEmpInfo[field] !== "")) {
-                setSubmitStatus("success");
-                if (['type', 'faculty', 'position', 'jobTitle', 'dateBegin'].every(field => newEmpInfo[field] !== null && newEmpInfo[field] !== "")) {
-                    setDataDone(true);
-                }
-                else {
-                    setDataDone(false);
-                }
-            }
-            else {
-                setSubmitStatus("fail");
-            }
-            
+        if (Object.values(newEmpInfo).every(value => value !== null && value !== "")) {
+            setSubmitStatus("success");
+            setDataDone(true);
+            console.log("success");
         }
-        if (content === "specialist") {
-            if (['type', 'faculty', 'position', 'jobTitle', 'dateBegin'].every(field => newEmpInfo[field] !== null && newEmpInfo[field] !== "")) {
-                setSubmitStatus("success");
-                if (['lastName', 'firstName', 'dob', 'gender', 'ssn', 'phone', 'address'].every(field => newEmpInfo[field] !== null && newEmpInfo[field] !== "")) {
-                    const filteredDegreeArray = newEmpInfo.degree.filter(deg => deg !== "");
-                    setNewEmpInfo(prevState => ({
-                    ...prevState,
-                    degree: filteredDegreeArray
-            }));
-                    setDataDone(true);
-                }
-                else {
-                    setDataDone(false);
-                }
-            }
-            else {
-                setSubmitStatus("fail");
-            }
+        else {
+            setSubmitStatus("fail");
+            setDataDone(false);
         }
         handleOpenNotiPopup();
         console.log(newEmpInfo);
@@ -135,7 +101,7 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
         <div className="w-full bg-[#EFF7FE] flex items-center flex-col">
             {
                 showNotiPopup &&
-                <div className="fixed z-[1] left-[33%] top-[28%]">
+                <div className="fixed z-[1] text-justify-center top-[28%]">
                     <NotiPopup content = {submitStatus} page = {content} done = {dataDone} handleCloseNotiPopup={handleCloseNotiPopup} handleAddDone = {handleAddDone} handleCloseAdd = {handleCloseAdd}/>
                 </div>
             }
@@ -151,16 +117,9 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
             <div className="table-container w-[1080px] h-fit rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)]">
                 <div className="w-[1080px] h-[76px] bg-[#CDDBFE] rounded-t-[47px] flex justify-between px-[36px] items-center">
                     <button className={` ${content === "info"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="info" onClick={() => setContent("info")} ref={infoButtonRef}>Thông tin</button>
-                    <button className={` ${content === "specialist"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="specialist" onClick={() => setContent("specialist")} ref={specialistButtonRef}>Chuyên môn</button>
-                    <button className={` ${content === "schedule"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="schedule" onClick={() => setContent("schedule")} ref={scheduleButtonRef}>Lịch làm việc</button>
-                    <button className={` ${content === "patient"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="patient" onClick={() => setContent("patient")} ref={patientButtonRef}>Bệnh nhân</button>
                 </div>
                 <div className="content">
                     {content === 'info' && <AddInfo handleChangeValue = {handleChangeValue}/>}
-                    {content === 'specialist' && <AddSpecialist handleChangeValue = {handleChangeValue} handleRemoveDegree = {handleRemoveDegree}/>}
-                    {content === 'schedule' && <AddSchedule handleOpenNoti = {handleOpenNotiPopup}/>}
-                    {content === 'patient' && <AddPatient handleOpenNoti={handleOpenNotiPopup}/>}
-
                 </div>
            </div>
            <div className="footer-section w-[1080px] mt-[20px] pr-[36px] flex justify-end">

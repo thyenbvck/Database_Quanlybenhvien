@@ -144,7 +144,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
     // }
     
     return (
-        <div className="w-full bg-[#EFF7FE] flex items-center flex-col">
+        <div className="w-full bg-[#EFF7FE] flex items-center flex-col h-full">
             {
                 showNotiPopup &&
                 <div className="fixed z-[1] left-[33%] top-[28%]">
@@ -161,26 +161,16 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
                 </button>
             </div>
             <div className="table-container w-[1080px] h-fit rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)]">
-                <div className="w-[1080px] h-[76px] bg-[#CDDBFE] rounded-t-[47px] flex justify-between px-[36px] items-center">
+                <div className="w-[1080px] h-[76px] bg-[#CDDBFE] rounded-t-[47px] flex justify-start px-[36px] items-center gap-[50px]">
                     <button className={` ${content === "info"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="info" onClick={() => setContent("info")} ref={infoButtonRef} autoFocus>Thông tin</button>
-                    <button className={` ${content === "specialist"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="specialist" onClick={() => setContent("specialist")} ref={specialistButtonRef}>Chuyên môn</button>
-                    <button className={` ${content === "schedule"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="schedule" onClick={() => setContent("schedule")} ref={scheduleButtonRef}>Lịch làm việc</button>
+                    <button className={` ${content === "schedule"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="schedule" onClick={() => setContent("schedule")} ref={scheduleButtonRef}>Lịch hẹn</button>
                     <button className={` ${content === "patient"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="patient" onClick={() => setContent("patient")} ref={patientButtonRef}>Bệnh nhân</button>
                 </div>
                 <div className="content">
                     {content === 'info' && <AddInfo emp = {emp}/>}
-                    {content === 'specialist' && <AddSpecialist emp = {emp}/>}
                     {content === 'schedule' && <AddSchedule emp = {emp}/>}
                     {content === 'patient' && <AddPatient emp = {emp}/>}
 
-                </div>
-           </div>
-           <div className="footer-section w-[1080px] mt-[20px] pr-[36px] flex justify-end">
-                <div className="pr-[18px]">
-                    <HuyButton/>
-                </div>
-                <div className="hover:cursor-pointer">
-                    <LuuButton/>
                 </div>
            </div>
         </div>

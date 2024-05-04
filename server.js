@@ -87,10 +87,21 @@ app.get("/employee", async (req, res) => {
   try {
     const employees = await dbOperation.getEmployees();
     res.json(employees);
+    console.log(employees);
   } catch (error) {
     console.log(error);
   }
 });
+
+dbOperation.getEmployees();
+// app.get("/", async (req, res) => {
+//   try {
+//     const employees = await dbOperation.getEmployees();
+//     res.json(employees);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // dbOperation.getEmployees();
 

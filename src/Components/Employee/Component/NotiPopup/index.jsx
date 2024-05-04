@@ -33,13 +33,6 @@ function NotiPopup({content, page, handleCloseNotiPopup, done, handleAddDone, ha
                         {content === "success" && page === "info" && !done &&
                             <div className="flex flex-col items-center">
                                 <p className="text-black font-medium leading-6">Thông tin của nhân viên mới được thêm thành công.</p>
-                                <p className="text-black font-medium leading-6">Vui lòng điền tiếp chuyên môn của nhân viên.</p>
-                            </div>
-                        }
-                        {content === "success" && page === "specialist" && !done &&
-                            <div className="flex flex-col items-center">
-                                <p className="text-black font-medium leading-6">Chuyên môn của nhân viên mới được thêm thành công.</p>
-                                <p className="text-black font-medium leading-6">Vui lòng điền tiếp thông tin của nhân viên.</p>
                             </div>
                         }
                         {content === "success" && done &&
@@ -49,12 +42,6 @@ function NotiPopup({content, page, handleCloseNotiPopup, done, handleAddDone, ha
                         }
                         {content === "fail" && <p className="text-black font-medium leading-6">Thông tin không hợp lệ. Vui lòng điền lại.</p>}
                         {content === "warning" && page === "info" &&
-                            <div className="flex flex-col items-center">
-                                <p className="text-black font-medium leading-6">Nhân viên mới chưa được thêm do chưa điền chuyên môn.</p>
-                                <p className="text-black font-medium leading-6">Bạn có chắc muốn hủy thông tin nhân viên mới?</p>
-                            </div>
-                        }
-                        {content === "warning" && page === "specialist" &&
                             <div className="flex flex-col items-center">
                                 <p className="text-black font-medium leading-6">Nhân viên mới chưa được thêm do chưa điền thông tin.</p>
                                 <p className="text-black font-medium leading-6">Bạn có chắc muốn hủy thông tin nhân viên mới?</p>

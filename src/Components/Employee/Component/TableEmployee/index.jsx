@@ -9,8 +9,7 @@ function TableEmployee({ children , countChecked, listLen, filterType, handleFil
                 <div className="button-section flex">
                     <button className={`${filterType === "Tất cả"? "bg-[#E9EFFF] shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" : null}w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]`} onClick={() => handleFilterType("Tất cả")}>Tất cả</button>
                     <button className={`${filterType === "Bác sĩ"? "bg-[#E9EFFF] shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" : null}w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]`} onClick={() => handleFilterType("Bác sĩ")}>Bác sĩ</button>
-                    <button className={`${filterType === "Y tá"? "bg-[#E9EFFF] shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" : null}w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]`} onClick={() => handleFilterType("Y tá")}>Y tá</button>
-                    <button className={`${filterType === "Khác"? "bg-[#E9EFFF] shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" : null}w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]`} onClick={() => handleFilterType("Khác")}>Khác</button>
+                    <button className={`${filterType === "Điều dưỡng"? "bg-[#E9EFFF] shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" : null}w-[300px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]`} onClick={() => handleFilterType("Điều dưỡng")}>Điều dưỡng</button>
                 </div>
                 <div className="right-section gap-[16px] flex items-center justify-end">
                     {countChecked > 0 &&
