@@ -32,6 +32,7 @@ const createEmployees = async (Employee) => {
       .input("CCCD", Employee.CCCD)
       .input("Ho", Employee.Ho)
       .input("Ten", Employee.Ten)
+      .input("SDT", Employee.SDT)
       .input("Gioi_tinh", Employee.Gioi_tinh)
       .input("Dia_chi", Employee.Dia_chi)
       .input("Email", Employee.Email)
@@ -48,7 +49,8 @@ const createEmployees = async (Employee) => {
         @Email,
         @Ngay_ky_hop_dong,
         @Luong,
-        @Ngay_sinh
+        @Ngay_sinh,
+        @SDT
       )`);
     return employees;
   } catch (error) {
