@@ -135,6 +135,18 @@ const getMostWork = async (month) => {
   }
 };
 
+const getRoomByNum = async (num) => {
+  try {
+    const pool = await sql.connect(config);
+    const room = await pool
+      .request()
+      .query(`SELECT * FROM phong_benh WHERE So_phong = '${num}'`);
+    return room.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getRoom = async () => {
   try {
     const pool = await sql.connect(config);
@@ -144,6 +156,30 @@ const getRoom = async () => {
     console.log(error);
   }
 };
+
+const getNearestList = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const lists = await pool
+      .request()
+      .query(`SELECT * FROM Lan_kham_gan_nhat()`);
+    return lists.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// HOW TO REFORMAT THE DATE AND TIME 
+// const date = new Date(user.Ngay_hen);
+// const time = new Date(user.Gio_hen);
+// const formatDate = date.toLocaleDateString();
+// const formatTime = time.toLocaleTimeString([], {
+//   hour12: true,
+//   hour: "2-digit",
+//   minute: "2-digit",
+//   second: "2-digit",
+//   timeZone: "UTC",
+// });
 
 module.exports = {
   getEmployees,
@@ -156,4 +192,6 @@ module.exports = {
   getHistory,
   getMostWork,
   getRoom,
+  getRoomByNum,
+  getNearestList,
 };
