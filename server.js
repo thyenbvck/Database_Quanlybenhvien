@@ -3,7 +3,7 @@ const Employee = require("./src/DBfile/Employee.js");
 const Room = require("./src/DBfile/Room.js");
 const dbOperation = require("./src/DBfile/dbOperation.js");
 const cors = require("cors");
-const Router =require("./src/BE/router/index.js");
+
 const app = express();
 app.use(
   express.urlencoded({
@@ -14,97 +14,79 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/',Router);
-// app.post("/employee/create", async (req, res) => {
-//   try {
-//     const {
-//       Ma_so_nhan_vien,
-//       CCCD,
-//       Ho,
-//       Ten,
-//       Gioi_tinh,
-//       Dia_chi,
-//       Email,
-//       Ngay_ky_hop_dong,
-//       Luong,
-//       Ngay_sinh,
-//     } = req.body;
 
-//     const newEmployee = new Employee(
-//       Ma_so_nhan_vien,
-//       CCCD,
-//       Ho,
-//       Ten,
-//       Gioi_tinh,
-//       Dia_chi,
-//       Email,
-//       Ngay_ky_hop_dong,
-//       Luong,
-//       Ngay_sinh
-//     );
+app.post("/employee", async (req, res) => {
+  try {
+    const {
+      Ma_so_nhan_vien,
+      CCCD,
+      Ho,
+      Ten,
+      Gioi_tinh,
+      Dia_chi,
+      Email,
+      Ngay_ky_hop_dong,
+      Luong,
+      Ngay_sinh,
+    } = req.body;
 
-//     await dbOperation.createEmployees(newEmployee);
-//     res.status(201).json({ message: "Employee created successfully" });
-//   } catch (error) {
-//     console.error("Error creating employee:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
+    const newEmployee = new Employee(
+      Ma_so_nhan_vien,
+      CCCD,
+      Ho,
+      Ten,
+      Gioi_tinh,
+      Dia_chi,
+      Email,
+      Ngay_ky_hop_dong,
+      Luong,
+      Ngay_sinh
+    );
 
-// app.post("/room/create", async (req, res) => {
-//   try {
-//     const { So_phong, Loai_phong, So_luong_benh_nhan_hien_tai } = req.body;
+    await dbOperation.createEmployees(newEmployee);
+    res.status(201).json({ message: "Employee created successfully" });
+  } catch (error) {
+    console.error("Error creating employee:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
-//     const newRoom = new Room(So_phong, Loai_phong, So_luong_benh_nhan_hien_tai);
+app.post("/room/create", async (req, res) => {
+  try {
+    const { So_phong, Loai_phong, So_luong_benh_nhan_hien_tai } = req.body;
 
-//     await dbOperation.createRoom(newRoom);
-//     res.status(201).json({ message: "Room created successfully" });
-//   } catch (error) {
-//     console.error("Error creating room:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
+    const newRoom = new Room(So_phong, Loai_phong, So_luong_benh_nhan_hien_tai);
 
-// app.get("/patient", async (req, res) => {
-//   try {
-//     const patients = await dbOperation.getPatients();
-//     res.json(patients);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    await dbOperation.createRoom(newRoom);
+    res.status(201).json({ message: "Room created successfully" });
+  } catch (error) {
+    console.error("Error creating room:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
-// app.get("/medicine", async (req, res) => {
-//   try {
-//     const medicines = await dbOperation.getMedicines();
-//     res.json(medicines);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+app.get("/patient", async (req, res) => {
+  const PatientID = req.query.id;
+  try {
+    if (PatientID) {
+      const patient = await dbOperation.getHistory(PatientID);
+      res.json(patient);
+    } else {
+      const patients = await dbOperation.getPatients();
+      res.json(patients);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-<<<<<<< HEAD
-// app.get("/employee", async (req, res) => {
-//   try {
-//     const employees = await dbOperation.getEmployees();
-//     res.json(employees);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+app.post("/patient", async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-// dbOperation.getEmployees();
-// // app.get("/", async (req, res) => {
-// //   try {
-// //     const employees = await dbOperation.getEmployees();
-// //     res.json(employees);
-// //   } catch (error) {
-// //     console.log(error);
-// //   }
-// // });
-
-// // dbOperation.getEmployees();
-=======
 app.get("/medicine", async (req, res) => {
   try {
     const medicines = await dbOperation.getMedicines();
@@ -114,6 +96,7 @@ app.get("/medicine", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 app.get("/employee", async (req, res) => {
   const EmployeeID = req.query.EmployeeID;
   try {
@@ -123,7 +106,6 @@ app.get("/employee", async (req, res) => {
     } else {
       const employees = await dbOperation.getEmployees();
       res.json(employees);
-      console.log(employees);
     }
   } catch (error) {
     console.log(error);
@@ -144,6 +126,14 @@ app.get("/home", async (req, res) => {
     console.log(error);
   }
 });
->>>>>>> 0f6bd993ee2af824388bdbed13f2861a8c9c71f1
+
+app.get("/room", async (req, res) => {
+  try {
+    const rooms = await dbOperation.getRoom();
+    res.json(rooms);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
