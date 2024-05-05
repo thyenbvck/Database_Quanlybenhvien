@@ -121,6 +121,31 @@ const getEmptySchedule = async (Ho, Ten, Ngay, Ca) => {
     console.log(error);
   }
 };
+
+const getMostWork = async (month) => {
+  try {
+    const pool = await sql.connect(config);
+    const mostWorks = await pool
+      .request()
+      .query(
+        `EXECUTE Proc_GetDoctorAppointmentsAndServices @AppointmentMonth = ${month}`
+      );
+    return mostWorks.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRoom = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const rooms = await pool.request().query(`SELECT * FROM phong_benh`);
+    return rooms.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getEmployees,
   createEmployees,
@@ -130,4 +155,6 @@ module.exports = {
   getMedicines,
   getEmptySchedule,
   getHistory,
+  getMostWork,
+  getRoom,
 };
