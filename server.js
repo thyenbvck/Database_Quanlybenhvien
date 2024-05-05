@@ -72,7 +72,7 @@ app.get("/patient", async (req, res) => {
       const patient = await dbOperation.getHistory(PatientID);
       res.json(patient);
     } else {
-      const patients = await dbOperation.getPatients();
+      const patients = await dbOperation.getNearestList();
       res.json(patients);
     }
   } catch (error) {
@@ -135,5 +135,7 @@ app.get("/room", async (req, res) => {
     console.log(error);
   }
 });
+
+
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
