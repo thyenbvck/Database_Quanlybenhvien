@@ -84,25 +84,34 @@ app.get("/medicine", async (req, res) => {
 });
 
 app.get("/employee", async (req, res) => {
+  const EmployeeID = req.query.EmployeeID;
   try {
-    const employees = await dbOperation.getEmployees();
-    res.json(employees);
-    console.log(employees);
+    if (EmployeeID) {
+      const employee = await dbOperation.getEmployeeByID(EmployeeID);
+      res.json(employee);
+    } else {
+      const employees = await dbOperation.getEmployees();
+      res.json(employees);
+      console.log(employees);
+    }
   } catch (error) {
     console.log(error);
   }
 });
 
-dbOperation.getEmployees();
-// app.get("/", async (req, res) => {
-//   try {
-//     const employees = await dbOperation.getEmployees();
-//     res.json(employees);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
-// dbOperation.getEmployees();
+app.get("/home", async (req, res) => {
+  const month = req.query.month;
+  try {
+    if (month) {
+      const mostWorks = await dbOperation.getMostWork(month);
+      res.json(mostWorks);
+    } else {
+      const mostWorks = await dbOperation.getMostWork("01");
+      res.json(mostWorks);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
