@@ -83,6 +83,7 @@ app.use('/',Router);
 //   }
 // });
 
+<<<<<<< HEAD
 // app.get("/employee", async (req, res) => {
 //   try {
 //     const employees = await dbOperation.getEmployees();
@@ -103,5 +104,46 @@ app.use('/',Router);
 // // });
 
 // // dbOperation.getEmployees();
+=======
+app.get("/medicine", async (req, res) => {
+  try {
+    const medicines = await dbOperation.getMedicines();
+    res.json(medicines);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/employee", async (req, res) => {
+  const EmployeeID = req.query.EmployeeID;
+  try {
+    if (EmployeeID) {
+      const employee = await dbOperation.getEmployeeByID(EmployeeID);
+      res.json(employee);
+    } else {
+      const employees = await dbOperation.getEmployees();
+      res.json(employees);
+      console.log(employees);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/home", async (req, res) => {
+  const month = req.query.month;
+  try {
+    if (month) {
+      const mostWorks = await dbOperation.getMostWork(month);
+      res.json(mostWorks);
+    } else {
+      const mostWorks = await dbOperation.getMostWork("01");
+      res.json(mostWorks);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+>>>>>>> 0f6bd993ee2af824388bdbed13f2861a8c9c71f1
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
