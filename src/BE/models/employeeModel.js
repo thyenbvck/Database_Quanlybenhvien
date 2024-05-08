@@ -44,7 +44,49 @@ const createNewEmployee = async (Data) =>{
           console.error("Error creating employee:", error);
         }
 }
+const updateEmployee = async (id,Data) => {
+  try {
+    const {
+      Ho,
+      Ten,
+      Ngay_sinh,
+      Gioi_tinh,
+      CCCD,
+      SDT,
+      Ngay_ky_hop_dong,
+      Luong,
+      Dia_chi,
+      Email,
+    } = Data;
+    const updatedEmployee = new Employee(
+      id,
+      Ho,
+      Ten,
+      Ngay_sinh,
+      Gioi_tinh,
+      CCCD,
+      SDT,
+      Ngay_ky_hop_dong,
+      Luong,
+      Dia_chi,
+      Email,
+    );
+    await dbOperation.updateEmployee(id,updatedEmployee);
+  } catch (error) {
+    console.error("Error updating employee:", error);
+  }
+};
+const deleteEmployee = async (Ma_so_nhan_vien) => {
+  try {
+    // Gọi hàm trong dbOperation để xóa một nhân viên khỏi cơ sở dữ liệu
+    await dbOperation.deleteEmployee(Ma_so_nhan_vien);
+  } catch (error) {
+    console.error("Error deleting employee:", error);
+  }
+};
 module.exports = {
     getEmployee,
-    createNewEmployee
+    createNewEmployee,
+    updateEmployee,
+    deleteEmployee
 }

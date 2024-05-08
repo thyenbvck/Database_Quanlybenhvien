@@ -57,7 +57,55 @@ const createEmployees = async (Employee) => {
     console.log(error);
   }
 };
-
+const updateEmployee = async (id,Employee) => {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool
+      .request()
+      .input("Ma_so_nhan_vien", id)
+      .input("Ho",Employee.Ho)
+      .input("Ten", Employee.Ten)
+      .input("SDT", Employee.SDT)
+      .input("CCCD", Employee.CCCD)
+      .input("Gioi_tinh",Employee.Gioi_tinh)
+      .input("Dia_chi",Employee.Dia_chi)
+      .input("Email", Employee.Email)
+      .input("Ngay_ky_hop_dong", Employee.Ngay_ky_hop_dong)
+      .input("Luong", Employee.Luong)
+      .input("Ngay_sinh", Employee.Ngay_sinh)
+      .query(`
+        UPDATE nhan_vien 
+        SET 
+          Ho = @Ho,
+          Ten = @Ten,
+          Gioi_tinh = @Gioi_tinh,
+          Dia_chi = @Dia_chi,
+          CCCD = @CCCD,
+          Email = @Email,
+          Ngay_ky_hop_dong = @Ngay_ky_hop_dong,
+          Luong = @Luong,
+          Ngay_sinh = @Ngay_sinh,
+          SĐT = @SDT
+        WHERE
+          Ma_so_nhan_vien = @Ma_so_nhan_vien
+      `);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const deleteEmployee = async (Ma_so_nhan_vien) => {
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("Ma_so_nhan_vien", Ma_so_nhan_vien)
+      .query("DELETE FROM nhan_vien WHERE Ma_so_nhan_vien = @Ma_so_nhan_vien");
+    return result;
+  } catch (error) {
+    console.error("Error deleting employee:", error);
+  }
+};
 const createRoom = async (Room) => {
   try {
     let pool = await sql.connect(config);
@@ -125,6 +173,8 @@ const getEmptySchedule = async (Ho, Ten, Ngay, Ca) => {
 module.exports = {
   getEmployees,
   createEmployees,
+  updateEmployee,
+  deleteEmployee,
   createRoom,
   getPatients,
   getEmployeeByID,
