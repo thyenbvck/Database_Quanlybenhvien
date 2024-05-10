@@ -31,18 +31,32 @@ function AddInfo({handleChangeValue}) {
     return (
         <div>
             <form className="my-[40px]" id="myForm" encType="multipart/form-data">
-                <div className="first-section flex justify-between items-center px-[60px]">
+                <div className="zero-section flex justify-between items-center px-[60px]">
+                        <div>
+                            <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Mã số nhân viên
+                                <span className="text text-[#F00]"> *</span>
+                            </label><br/>
+                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="BS10003" onChange={(e) => handleChangeValue("Ma_so_nhan_vien", e.target.value)}/><br/>
+                        </div>
+                        <div>
+                            <label htmlFor="text" className="text text-black text-xl font-medium leading-8">CCCD
+                                <span className="text text-[#F00]"> *</span>
+                            </label><br/>
+                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="0123456789" onChange={(e) => handleChangeValue("CCCD", e.target.value)}/><br/>
+                        </div>
+                </div>                   
+                <div className="first-section mt-[40px] flex justify-between items-center px-[60px]">
                         <div>
                             <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Họ
                                 <span className="text text-[#F00]"> *</span>
                             </label><br/>
-                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="Nguyễn" onChange={(e) => handleChangeValue("lastName", e.target.value)}/><br/>
+                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="Nguyễn" onChange={(e) => handleChangeValue("Ho", e.target.value)}/><br/>
                         </div>
                         <div>
                             <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Tên
                                 <span className="text text-[#F00]"> *</span>
                             </label><br/>
-                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="Văn A" onChange={(e) => handleChangeValue("firstName", e.target.value)}/><br/>
+                            <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="Văn A" onChange={(e) => handleChangeValue("Ten", e.target.value)}/><br/>
                         </div>
                 </div>                   
                 <div className="second-section mt-[40px] flex justify-between items-center px-[60px]">
@@ -50,13 +64,13 @@ function AddInfo({handleChangeValue}) {
                         <label htmlFor="dob" className="text text-black text-xl font-medium leading-8">Ngày sinh
                             <span className="dob text-[#F00]"> *</span>
                         </label><br/>
-                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="date" id="dob" name="dob"  onChange={(e) => handleChangeValue("dob", e.target.value)}/><br/>
+                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="date" id="dob" name="dob"  onChange={(e) => handleChangeValue("Ngay_sinh", e.target.value)}/><br/>
                     </div>
                     <div>
                         <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Giới tính
                             <span className="text text-[#F00]"> *</span>
                         </label><br/>
-                        <select className="w-[450px] rounded-[5px] mt-[4px]" id="genders" name="genders"  onChange={(e) => handleChangeValue("gender", e.target.value)}>
+                        <select className="w-[450px] rounded-[5px] mt-[4px]" id="genders" name="genders"  onChange={(e) => handleChangeValue("Gioi_tinh", e.target.value)}>
                             <option value="" disabled selected>Chọn giới tính</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
@@ -65,16 +79,16 @@ function AddInfo({handleChangeValue}) {
                 </div>                   
                 <div className="third-section mt-[40px] flex justify-between items-center px-[60px]">
                     <div>
-                        <label htmlFor="text" className="text text-black text-xl font-medium leading-8">CCCD
+                        <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Email
                             <span className="text text-[#F00]"> *</span>
                         </label><br/>
-                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="0123456789" onChange={(e) => handleChangeValue("ssn", e.target.value)}/><br/>
+                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="nguyenvana@gmail.com" onChange={(e) => handleChangeValue("Email", e.target.value)}/><br/>
                     </div>
                     <div>
                         <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Số điện thoại
                             <span className="text text-[#F00]"> *</span>
                         </label><br/>
-                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="0123456789" onChange={(e) => handleChangeValue("phone", e.target.value)}/><br/>
+                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="0123456789" onChange={(e) => handleChangeValue("SDT", e.target.value)}/><br/>
                     </div>
                 </div>      
                 <div className="fourth-section mt-[40px] flex justify-between items-center px-[60px]">
@@ -82,30 +96,30 @@ function AddInfo({handleChangeValue}) {
                         <label htmlFor="dob" className="text text-black text-xl font-medium leading-8">Ngày ký hợp đồng lao động
                             <span className="dob text-[#F00]"> *</span>
                         </label><br/>
-                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="date" id="dob" name="dob"  onChange={(e) => handleChangeValue("dateBegin", e.target.value)}/><br/>
+                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="date" id="dob" name="dob"  onChange={(e) => handleChangeValue("Ngay_ky_hop_dong", e.target.value)}/><br/>
                     </div>
                     <div>
                         <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Lương
                             <span className="text text-[#F00]"> *</span>
                         </label><br/>
-                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="20000000" onChange={(e) => handleChangeValue("salary", e.target.value)}/><br/>
+                        <input className="w-[450px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="20000000" onChange={(e) => handleChangeValue("Luong", e.target.value)}/><br/>
                     </div>
                 </div>              
-                <div className="fifth-section mt-[40px] flex justify-between items-center px-[60px]">
+                {/* <div className="fifth-section mt-[40px] flex justify-between items-center px-[60px]">
                     <div>
                         <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Email
                             <span className="text text-[#F00]"> *</span>
                         </label><br/>
                         <input className="w-[960px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="nguyenvana@gmail.com" onChange={(e) => handleChangeValue("email", e.target.value)}/><br/>
                     </div>
-                </div>                   
+                </div>                    */}
                 <div className="sixth-section mt-[40px] flex justify-between items-center px-[60px] w-full">
                 <div>
                     <label htmlFor="text" className="text text-black text-xl font-medium leading-8">Địa chỉ
                         <span className="text text-[#F00]">*</span>
                     </label><br/>
                     <input className="w-[960px] rounded-[5px] mt-[4px]" type="text" id="text" name="text" placeholder="268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh, Việt Nam"
-                        onChange={(e) => handleChangeValue("address", e.target.value)} /><br/>
+                        onChange={(e) => handleChangeValue("Dia_chi", e.target.value)} /><br/>
                     </div>
                 </div>                   
                     

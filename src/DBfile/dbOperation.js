@@ -5,7 +5,6 @@ const getEmployees = async () => {
   try {
     let pool = await sql.connect(config);
     let employees = await pool.request().query("SELECT * FROM nhan_vien");
-    console.log(employees);
     return employees.recordset;
   } catch (error) {
     console.log(error);
@@ -121,6 +120,104 @@ const getEmptySchedule = async (Ho, Ten, Ngay, Ca) => {
     console.log(error);
   }
 };
+
+const getMostWork = async (month) => {
+  try {
+    const pool = await sql.connect(config);
+    const mostWorks = await pool
+      .request()
+      .query(
+        `EXECUTE Proc_GetDoctorAppointmentsAndServices @AppointmentMonth = ${month}`
+      );
+    return mostWorks.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRoomByNum = async (num) => {
+  try {
+    const pool = await sql.connect(config);
+    const room = await pool
+      .request()
+      .query(`SELECT * FROM phong_benh WHERE So_phong = '${num}'`);
+    return room.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRoom = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const rooms = await pool.request().query(`SELECT * FROM phong_benh`);
+    return rooms.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getNearestList = async () => {
+  try {
+    const pool = await sql.connect(config);
+    const lists = await pool
+      .request()
+      .query(`SELECT * FROM Lan_kham_gan_nhat()`);
+    return lists.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// HOW TO REFORMAT THE DATE AND TIME 
+// const date = new Date(user.Ngay_hen);
+// const time = new Date(user.Gio_hen);
+// const formatDate = date.toLocaleDateString();
+// const formatTime = time.toLocaleTimeString([], {
+//   hour12: true,
+//   hour: "2-digit",
+//   minute: "2-digit",
+//   second: "2-digit",
+//   timeZone: "UTC",
+// });
+
+const getMedHistory = async (PatientID) => {
+  try {
+    const pool = await sql.connect(config);
+    const medicines = await pool
+      .request()
+      .query(`SELECT * FROM lich_su_don_thuoc(${PatientID})`);
+    return medicines.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateLuuTru = async (
+  Ma_lan_su_dung_dich_vu,
+  Ngay_ket_thuc,
+  So_phong
+) => {
+  try {
+    const pool = await sql.connect(config);
+    const DoiPhong = await pool
+      .request()
+      .input("So_phong", So_phong)
+      .query(
+        `EXEC Cap_nhat_phong_benh @So_phong = '${So_phong}', @Ma_so_dich_vu_luu_tru = '${Ma_lan_su_dung_dich_vu}'`
+      );
+    const DoiNgay = await pool
+      .request()
+      .input("Ngay_ket_thuc", Ngay_ket_thuc)
+      .query(
+        `UPDATE dich_vu_luu_tru SET Ngay_ket_thuc = '${Ngay_ket_thuc}' WHERE Ma_so = '${Ma_lan_su_dung_dich_vu}'`
+      );
+    return { DoiPhong, DoiNgay };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getEmployees,
   createEmployees,
@@ -130,4 +227,10 @@ module.exports = {
   getMedicines,
   getEmptySchedule,
   getHistory,
+  getMostWork,
+  getRoom,
+  getRoomByNum,
+  getNearestList,
+  getMedHistory,
+  updateLuuTru,
 };

@@ -83,15 +83,30 @@ app.get("/medicine", async (req, res) => {
   }
 });
 
+// app.get("/employee", async (req, res) => {
+//   try {
+//     const employees = await dbOperation.getEmployees();
+//     res.json(employees);
+//     console.log(employees);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
 app.get("/employee", async (req, res) => {
-  try {
-    const employees = await dbOperation.getEmployees();
-    res.json(employees);
-    console.log(employees);
-  } catch (error) {
-    console.log(error);
-  }
-});
+    const EmployeeID = req.query.EmployeeID;
+    try {
+      if (EmployeeID) {
+        const employee = await dbOperation.getEmployeeByID(EmployeeID);
+        res.json(employee);
+      } else {
+        const employees = await dbOperation.getEmployees();
+        res.json(employees);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 dbOperation.getEmployees();
 // app.get("/", async (req, res) => {

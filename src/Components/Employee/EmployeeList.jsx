@@ -15,16 +15,15 @@ function EmployeeList() {
     const [listDoctor, setListDoctor] = useState([]);
     const [listNurse, setListNurse] = useState([]);
     const [displayList, setDisplayList] = useState([]);
-    const [isCheckedAll, setIsCheckedAll] = useState(false);
     const [addNewEmp, setAddNewEmp] = useState(false);
     const [pageNumber, setPageNumber] = useState(0);
-    const [checkedEmployees, setCheckedEmployees] = useState({});
-    const [countChecked, setCountChecked] = useState(0);
     const [filterType, setFilterType] = useState("Tất cả")
     const [addDone, setAddDone] = useState(false);
     const [viewEmp, setViewEmp] = useState(false);
     const [viewEmpId, setViewEmpId] = useState();
-
+    const [empCheckId, setEmpCheckId] = useState();
+    const [isChecked, setIsChecked] = useState(false);
+ 
     const handleAddNewEmp = () => {
         setAddNewEmp(true); 
     }
@@ -35,21 +34,6 @@ function EmployeeList() {
         }
     },[viewEmpId])
 
-    // useEffect(() => {
-    //     setPageNumber(0);
-    //     fetch("http://localhost:3000/patient", {
-    //     })
-    //       .then((data) => {
-    //         console.log(data.json());
-    //         const doctor = Object.values(data.employees).filter(emp => emp.type === "Bác sĩ");
-    //         const nurse = Object.values(data.employees).filter(emp => emp.type === "Điều dưỡng");
-    //         setListEmployee(Object.values(data.employees));
-    //         setListDoctor(doctor);
-    //         setListNurse(nurse);
-    //         setDisplayList(Object.values(data.employees));
-    //       })
-    //       .catch((error) => console.error('Error fetching employee data:', error));
-    //   },[addNewEmp, viewEmp, addDone])
 
     useEffect(() => {
         fetchData();
@@ -59,8 +43,8 @@ function EmployeeList() {
         try {
             const result = await fetch("http://localhost:3000/employee");
             const jsonData = await result.json();
-            const doctor = jsonData.filter(emp => emp.type === "Bác sĩ");
-            const nurse = jsonData.filter(emp => emp.type === "Điều dưỡng");
+            const doctor = jsonData.filter((employee) => employee.Ma_so_nhan_vien.startsWith("BS"));
+            const nurse = jsonData.filter((employee) => employee.Ma_so_nhan_vien.startsWith("DD"));
             setListEmployee(jsonData);
             setListDoctor(doctor);
             setListNurse(nurse);
@@ -73,40 +57,16 @@ function EmployeeList() {
 
     useEffect(() => {
         setPageNumber(0);
-        setCheckedEmployees({});
-        setIsCheckedAll(false);
         setAddDone(false);
         if (filterType === "Tất cả") setDisplayList(listEmployee);
         else if (filterType === "Bác sĩ") setDisplayList(listDoctor);
         else if (filterType === "Điều dưỡng") setDisplayList(listNurse);
     },[filterType])
 
-    const handleCheckAllChange = (event) => {
-        setIsCheckedAll(event.target.checked);
-        const updatedCheckedEmployees = {};
-        displayList.forEach(employee => {
-            updatedCheckedEmployees[employee.id - 1] = event.target.checked;
-        });
-        setCheckedEmployees(updatedCheckedEmployees);
-    };
 
-    useEffect(() => {
-        let count = 0;
-        for (const key in checkedEmployees) {
-            if (checkedEmployees[key]) {
-                count++;
-            }
-        }
-        setCountChecked(count);
-        if (displayList.length !== 0 && count === displayList.length) setIsCheckedAll(true);
-    }, [checkedEmployees]);
-
-    const handleEmployeeCardCheckboxChange = (employeeId, isChecked) => {
-        setCheckedEmployees(prevState => ({
-            ...prevState,
-            [employeeId]: isChecked
-        }));
-        if (isCheckedAll) setIsCheckedAll(false);
+    const handleEmployeeCardCheckboxChange = (isChecked, empId) => {
+        setEmpCheckId(empId);
+        setIsChecked(isChecked);
     };
 
     const handlePage = (page) => {
@@ -139,17 +99,11 @@ function EmployeeList() {
                                 source="/images/NurseImage1.png"
                             ></InfoTag>
                     </div>
-                    <TableEmployee countChecked={countChecked} listLen={displayList.length} filterType={filterType} handleFilterType={handleFilterType}>
-                        <div className='flex items-center w-[110px] ml-12 justify-between my-[12px]'>
-                            <input type='checkbox' checked={isCheckedAll} onChange={handleCheckAllChange}></input>
-                            <div>
-                                <p className='text-[#200101] text-base not-italic font-medium leading-6'>Chọn tất cả</p>
-                            </div>
-                        </div>
+                    <TableEmployee isChecked={isChecked} listLen={displayList.length} filterType={filterType} handleFilterType={handleFilterType}>
                         <div className='flex flex-wrap w-[1080px] px-[21px]'>
                             {
                                 displayList.slice(pageNumber*9, ((pageNumber+1) * 9)).map((emp, index) => 
-                                    <EmployeeCard key={index} emp = {emp} isChecked={checkedEmployees[emp.id - 1] || false} handleCheck={handleEmployeeCardCheckboxChange} handleView = {(id) => setViewEmpId(id)}/>
+                                    <EmployeeCard filterType = {filterType} key={index} emp = {emp} empCheckId = {empCheckId} isChecked={isChecked} handleCheck={handleEmployeeCardCheckboxChange} handleView = {(id) => setViewEmpId(id)}/>
                                 )
                             }
                         </div>

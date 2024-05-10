@@ -20,19 +20,22 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
     const [submitStatus, setSubmitStatus] = useState("success");
     const [emp, setEmp] = useState({});
 
-
     useEffect(() => {
-            fetch(`/api/employees/${empId}`, {
-                method: "GET",
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                setEmp(data.employee);
-            })
-            .catch((error) => console.error('Error fetching employee data:', error));
-    }, []);
-
-    console.log(emp);
+        console.log("IM HERE ---------------");
+        fetchData();
+      }, [empId]);
+    
+    const fetchData = async () => {
+    try {
+        const result = await fetch(`http://localhost:3000/employee?EmployeeID=${empId}`);
+        const jsonData = await result.json();
+        console.log("JSON DATA ------------------------");
+        console.log(jsonData);
+        setEmp(jsonData);
+    } catch (err) {
+        console.log(err);
+    }
+    };
 
     // const [newEmpInfo, setNewEmpInfo] = useState({
     //     name: "abc",
@@ -142,7 +145,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
     //     const updatedDegree = newEmpInfo.degree.filter(deg => deg !== value);
     //     setNewEmpInfo({ ...newEmpInfo, degree: updatedDegree });
     // }
-    
+    console.log(emp);
     return (
         <div className="w-full bg-[#EFF7FE] flex items-center flex-col h-full">
             {
@@ -153,7 +156,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
             }
             <div className="top-section mt-[8px] w-[1080px] px-[36px] py-[20px] flex items-center justify-between">
                 <div className="content flex items-center">
-                    <p className="text-[#032B91] text-[32px] font-bold leading-[48px]">{emp.firstName? emp.lastName + " " + emp.firstName : ""}</p>
+                    <p className="text-[#032B91] text-[32px] font-bold leading-[48px]">{emp.Ho? emp.Ho + " " + emp.Ten : ""}</p>
                 </div>
                 <button className="w-[32px] h-[32px] bg-white flex justify-center items-center rounded-[10px] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)] hover:bg-transparent hover:border-[3px] hover:border-[#032B91] hover:border-solid"
                     onClick={handleAlertClose}>
@@ -162,7 +165,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
             </div>
             <div className="table-container w-[1080px] h-fit rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)]">
                 <div className="w-[1080px] h-[76px] bg-[#CDDBFE] rounded-t-[47px] flex justify-start px-[36px] items-center gap-[50px]">
-                    <button className={` ${content === "info"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="info" onClick={() => setContent("info")} ref={infoButtonRef} autoFocus>Thông tin</button>
+                    <button className={` ${content === "info"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="info" onClick={() => setContent("info")} ref={infoButtonRef}>Thông tin</button>
                     <button className={` ${content === "schedule"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="schedule" onClick={() => setContent("schedule")} ref={scheduleButtonRef}>Lịch hẹn</button>
                     <button className={` ${content === "patient"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="patient" onClick={() => setContent("patient")} ref={patientButtonRef}>Bệnh nhân</button>
                 </div>
