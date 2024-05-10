@@ -181,6 +181,43 @@ const getNearestList = async () => {
 //   timeZone: "UTC",
 // });
 
+const getMedHistory = async (PatientID) => {
+  try {
+    const pool = await sql.connect(config);
+    const medicines = await pool
+      .request()
+      .query(`SELECT * FROM lich_su_don_thuoc(${PatientID})`);
+    return medicines.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateLuuTru = async (
+  Ma_lan_su_dung_dich_vu,
+  Ngay_ket_thuc,
+  So_phong
+) => {
+  try {
+    const pool = await sql.connect(config);
+    const DoiPhong = await pool
+      .request()
+      .input("So_phong", So_phong)
+      .query(
+        `EXEC Cap_nhat_phong_benh @So_phong = '${So_phong}', @Ma_so_dich_vu_luu_tru = '${Ma_lan_su_dung_dich_vu}'`
+      );
+    const DoiNgay = await pool
+      .request()
+      .input("Ngay_ket_thuc", Ngay_ket_thuc)
+      .query(
+        `UPDATE dich_vu_luu_tru SET Ngay_ket_thuc = '${Ngay_ket_thuc}' WHERE Ma_so = '${Ma_lan_su_dung_dich_vu}'`
+      );
+    return { DoiPhong, DoiNgay };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getEmployees,
   createEmployees,
@@ -194,4 +231,6 @@ module.exports = {
   getRoom,
   getRoomByNum,
   getNearestList,
+  getMedHistory,
+  updateLuuTru,
 };
