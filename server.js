@@ -80,13 +80,6 @@ app.use('/', Router);
 //   }
 // });
 
-// app.post("/patient", async (req, res) => {
-//   try {
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
 // app.get("/medicine", async (req, res) => {
 //   try {
 //     const medicines = await dbOperation.getMedicines();
@@ -134,6 +127,33 @@ app.use('/', Router);
 //   }
 // });
 
+app.post("/patient", async (req, res) => {
+  try {
+    const {
+      Ma_lan_su_dung_dich_vu,
+      Loai_dich_vu,
+      Bac_si,
+      Ngay_thuc_hien,
+      Gio,
+      Ngay_bat_dau,
+      Ngay_ket_thuc,
+      So_phong,
+      Loai_phong,
+    } = req.body;
 
+    if (Loai_dich_vu === "Lưu trú") {
+      await dbOperation.updateLuuTru(
+        Ma_lan_su_dung_dich_vu,
+        Ngay_ket_thuc,
+        So_phong
+      );
+    } else {
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
