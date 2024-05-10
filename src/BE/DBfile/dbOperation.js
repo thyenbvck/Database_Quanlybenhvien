@@ -1,6 +1,6 @@
 const config = require("./dbConfig"),
   sql = require("mssql/msnodesqlv8");
-
+/*API nhân viên */
 const getEmployees = async () => {
   try {
     let pool = await sql.connect(config);
@@ -106,6 +106,32 @@ const deleteEmployee = async (Ma_so_nhan_vien) => {
     console.error("Error deleting employee:", error);
   }
 };
+/*API thuốc*/
+const updatePrescription = async(id,Medicine)=>{
+  try {
+    let pool = await sql.connect(config);
+    for (let i = 0; i < Medicine.length; i++) {
+        const tenThuoc = Medicine[i].Ten;
+        const soLuong = Medicine[i].So_luong;
+        let result = await pool.request()
+            .input("id", sql.NVarChar(100), id)
+            .input("Ten_thuoc", sql.NVarChar(100), tenThuoc)
+            .input("So_luong", sql.Int, soLuong)
+            .query(`
+            UPDATE don_thuoc_gom_thuoc
+            SET So_luong = @So_luong
+            WHERE Ma_don_thuoc = @id
+            AND Ma_thuoc IN (
+                SELECT t.Ma_thuoc
+                FROM thuoc AS t
+                WHERE t.Ten = @Ten_thuoc
+            );
+            `);
+    }
+  }catch (error) {
+    console.log(error);
+  }
+}
 const createRoom = async (Room) => {
   try {
     let pool = await sql.connect(config);
@@ -173,6 +199,7 @@ const getEmptySchedule = async (Ho, Ten, Ngay, Ca) => {
 module.exports = {
   getEmployees,
   createEmployees,
+  updatePrescription,
   updateEmployee,
   deleteEmployee,
   createRoom,
