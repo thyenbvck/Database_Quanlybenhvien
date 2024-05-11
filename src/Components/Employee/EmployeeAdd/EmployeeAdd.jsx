@@ -17,23 +17,22 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
     const [submitStatus, setSubmitStatus] = useState("success");
 
     const [newEmpInfo, setNewEmpInfo] = useState({
-        name: "abc",
-        lastName: null,
-        firstName: null,
-        dob: null,
-        gender: null,
-        ssn: null,
-        phone: null,
-        address: null,
-        email: null,
-        salary: null,
-        dateBegin: null,
-        type: "Khác"
+        Ma_so_nhan_vien: "",
+        CCCD: "",
+        Ho: "",
+        Ten: "",
+        Ngay_sinh: "",
+        Gioi_tinh: "",
+        Email: "",
+        SDT: "",
+        Ngay_ky_hop_dong: "",
+        Luong: "",
+        Dia_chi: ""
     });
 
     useEffect(() => {
         if (dataDone) {
-            fetch("/api/employees", {
+            fetch("/employee", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +67,7 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
             handleOpenNotiPopup();
         }
     }
-
+ 
     const handleSaveTest = () => {
         if (Object.values(newEmpInfo).every(value => value !== null && value !== "")) {
             setSubmitStatus("success");
@@ -82,7 +81,7 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
         handleOpenNotiPopup();
         console.log(newEmpInfo);
     }
-
+   
     const handleChangeValue = (field, value) => {
         if (field === "degree") {
             const updatedDegree = newEmpInfo.degree;
@@ -119,7 +118,7 @@ function EmployeeAdd({handleCloseAdd, handleAddDone}) {
                     <button className={` ${content === "info"? "bg-[#032B91] text-[#F9FBFF] font-semibold" : "text-[#032B91] font-bold"} w-[200px] h-[44px] text-2xl leading-9 px-5 py-1 rounded-[20px] `} id="info" onClick={() => setContent("info")} ref={infoButtonRef}>Thông tin</button>
                 </div>
                 <div className="content">
-                    {content === 'info' && <AddInfo handleChangeValue = {handleChangeValue}/>}
+                    {content === 'info' && <AddInfo formData = {newEmpInfo} handleChangeValue = {handleChangeValue}/>}
                 </div>
            </div>
            <div className="footer-section w-[1080px] mt-[20px] pr-[36px] flex justify-end">

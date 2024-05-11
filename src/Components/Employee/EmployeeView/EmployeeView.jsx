@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import HuyButton from "../../Button/Huy_Button";
 import LuuButton from "../../Button/Luu_Button";
-
+import axios from "axios";
 import AddInfo from "./AddInfo";
 import AddSpecialist from "./AddSpecialist";
 import AddSchedule from "./AddSchedule";
@@ -20,22 +20,37 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
     const [submitStatus, setSubmitStatus] = useState("success");
     const [emp, setEmp] = useState({});
 
-    useEffect(() => {
-        console.log("IM HERE ---------------");
-        fetchData();
-      }, [empId]);
+    // useEffect(() => {
+    //     console.log("IM HERE ---------------");
+    //     fetchData();
+    // }, []);
     
-    const fetchData = async () => {
+    // const fetchData = async () => {
+    //     try {
+    //         const result = await fetch(`http://localhost:3000/employee?EmployeeID=${empId}`);
+    //         const jsonData = await result.json();
+    //         console.log("JSON DATA ------------------------");
+    //         console.log(jsonData);
+    //         setEmp(jsonData);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+
+    // TRYING TO USE AXIOS INSTEAD OF FETCH
+   useEffect(() => {
+    fetchData();
+   },[]); 
+
+   const fetchData = async () => {
     try {
-        const result = await fetch(`http://localhost:3000/employee?EmployeeID=${empId}`);
-        const jsonData = await result.json();
-        console.log("JSON DATA ------------------------");
-        console.log(jsonData);
-        setEmp(jsonData);
-    } catch (err) {
-        console.log(err);
+        const result = await axios.get(`http://localhost:3000/employee?EmployeeID=${empId}`);
+        // console.log(result.data);
+        setEmp(result.data);
+    } catch (error) {
+        console.log(error);
     }
-    };
+   }
 
     // const [newEmpInfo, setNewEmpInfo] = useState({
     //     name: "abc",
@@ -91,6 +106,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
         handleCloseAdd();
         handleCloseView();
     }
+
 
     // const handleSaveTest = () => {
     //     if (content === "info") {
@@ -172,8 +188,7 @@ function EmployeeView({handleCloseView, handleCloseAdd, empId, handleAddDone}) {
                 <div className="content">
                     {content === 'info' && <AddInfo emp = {emp}/>}
                     {content === 'schedule' && <AddSchedule emp = {emp}/>}
-                    {content === 'patient' && <AddPatient emp = {emp}/>}
-
+                    {content === 'patient' && <AddPatient DocID = {empId}/>}
                 </div>
            </div>
         </div>

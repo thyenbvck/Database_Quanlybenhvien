@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-function HandleTime() {
+function HandleTime({ month, setMonth }) {
+    if(month == undefined) setMonth(5);
     const date = new Date();
-    const [ month, setMonth ] = useState(4);
     const [ year, setYear ] = useState(2024);
 
     const increaseY = () => {
@@ -20,6 +20,7 @@ function HandleTime() {
         } else {
             setMonth(month - 1);
         }
+        
     }
     
     const increaseM = () => {
@@ -29,6 +30,7 @@ function HandleTime() {
         } else {
             setMonth(month + 1);
         }
+        console.log(month)
     }
 
     const today = () => {
@@ -43,7 +45,6 @@ function HandleTime() {
             <div className="w-[225px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] focus:bg-[#E9EFFF] focus:shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]">
                 Tháng {month},{year}
             </div>
-            
             <button className="w-[145px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] focus:bg-[#E9EFFF] focus:shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" onClick={today}>Hôm nay</button>
         </div>
     )

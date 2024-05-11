@@ -9,7 +9,9 @@ class Employee {
     Email,
     Ngay_ky_hop_dong,
     Luong,
-    Ngay_sinh
+    Ngay_sinh,
+    SDT,
+    is_delete
   ) {
     (this.Ma_so_nhan_vien = Ma_so_nhan_vien),
       (this.CCCD = CCCD),
@@ -20,7 +22,9 @@ class Employee {
       (this.Email = Email),
       (this.Ngay_ky_hop_dong = Ngay_ky_hop_dong),
       (this.Luong = Luong),
-      (this.Ngay_sinh = Ngay_sinh);
+      (this.Ngay_sinh = Ngay_sinh),
+        (this.SDT = SDT),
+        (this.is_delete = is_delete);
   }
 }
 

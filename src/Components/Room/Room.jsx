@@ -1,48 +1,56 @@
 import {useState, useEffect} from 'react'
 import React from 'react';
 
-import RoomAdd from './RoomAdd/RoomAdd';
+// import RoomAdd from './RoomAdd/RoomAdd';
+// import RoomDetail from './RoomAdd/RoomDetail'
 
-import TableHome from "./Component/Table/Table";  
+import TableRoom from "./Component/Table/Table";  
 import InfoTag from './Component/InfoTag';         
 import ListBar from './Component/ListBar/ListBar';
 
 
 function RoomDisplay() {  
-    const [checkedState, setCheckedState] = useState([]);
-    const [listEmployeeStatus, setListEmployeeStatus] = useState([]);
-    const [isChecked, setIsChecked] = useState(false);
-    const [isCheckedAll, setIsCheckedAll] = useState(false);
-    const [countChecked, setCountChecked] = useState(0);
+
+    const [pageNumber, setPageNumber] = useState(0);
     const [addNewRoom, setAddNewRoom] = useState(false);
+    const [currentRoom, setCurrentRoom] = useState(null);
+    const [currentType, setCurrentType] = useState(null);
+
+    const handlePage = (page) => {
+        setPageNumber(page);
+    }
 
     const handleAddNewRoom = () => {
         setAddNewRoom(true); 
-        console.log("work");
     }
 
-    // useEffect(() => {
-    //     fetch("api/patients/list", {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     })
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         setListPatient_Info(data);
-    //         setCheckedState(new Array(data.length).fill(false));
-    //       })
-    //       .catch((error) => console.error('Error fetching patient data:', error));
-    //   }, []);
+    const handleSetCurrentRoom = (num, type) => {
+        setCurrentRoom(num);
+        setCurrentType(type);
+    }
 
-    if (!addNewRoom) {
+    const [roomData, setRoomData] = useState([]);
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const result = await fetch("http://localhost:3000/room");
+            const jsonData = await result.json();
+            setRoomData(jsonData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    if (addNewRoom == false && currentRoom == null) {
         return (
             <div className="w-full h-full bg-[#EFF7FE] flex items-center flex-col">
                 <div className='flex my-[40px] w-[1080px]'>
                         <InfoTag  
                             title="Phòng bệnh"
-                            value="238"
+                            value={roomData.length}
                             source="/images/bed.png"
                         ></InfoTag>
                 </div>
@@ -62,27 +70,33 @@ function RoomDisplay() {
                         <img src="/images/Patient_filter.png" alt="filter" />
                     </div>
                 </div>
-                <TableHome>
-                </TableHome>
+                <TableRoom room={roomData} pageNumber={pageNumber} setCurrentRoom={(roomNum, roomType) => handleSetCurrentRoom(roomNum, roomType)} >
+                </TableRoom>
                 </div>
                 <div className='flex items-center w-[1080px] justify-between p-[10px] mt-[24px]'>
                     <div>
-                        <p className='text-black text-lg font-medium leading-6'>Tổng số lượng: 238</p>
+                        <p className='text-black text-lg font-medium leading-6'>Tổng số lượng: {roomData.length}</p>
                     </div>
-                    <ListBar/>
+                    <ListBar pageNumber={pageNumber} handlePage={handlePage}/>
                 </div>
             </div>
-            
         )
     }
-    else {
-        return (
-            <div className='w-full h-full bg-[#EFF7FE] flex items-center flex-col'>
-                <RoomAdd/>
-            </div>
-        )
-    }
-    
+    // else if(addNewRoom) {
+    //     return (
+    //         <div className='w-full h-full bg-[#EFF7FE] flex items-center flex-col'>
+    //             <RoomAdd/>
+    //         </div>
+    //     )
+    // }
+    // else if(currentRoom) {
+    //     return (
+    //         <div className='w-full h-full bg-[#EFF7FE] flex items-center flex-col'>
+    //             <RoomDetail chosenNum={currentRoom} chosenType={currentType}> </RoomDetail>
+    //         </div>
+    //     )
+    // }
+
 }
 
 export default RoomDisplay;

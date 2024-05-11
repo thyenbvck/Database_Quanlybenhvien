@@ -1,11 +1,11 @@
-import { useState } from "react";
-import React from 'react';
-import "./medicine.css"
+import { useState, useRef, useEffect } from "react";
 
-function TableHome({ medi, pageNumber }) {
+
+function ViewMedicine({ medicineData }) {
+
     return (
-        <div className="container w-[1080px] h-[850px] rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)] h-full">
-            <div className="flex justify-between mx-10 mt-7 mb-5">
+        <div>
+            {/* <div className="flex justify-between mx-10 mt-7 mb-5">
                 <div className="button-section flex">
                     <div className="w-[250px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] flex items-center">Thuốc</div>
                 </div>
@@ -22,15 +22,14 @@ function TableHome({ medi, pageNumber }) {
                     <table className="w-[1000px] justify-between">
                         <thead>
                         <tr>
-                            {/* cần code thêm JS để hiển thị tối đa 10 dòng */}
                             <th>STT</th>
-                            <th>Mã</th>
-                            <th>Tên</th>
-                            <th>Giá bán</th>
-                            <th>HDSD</th>
+                            <th>Mã tiến trình</th>
+                            <th>mã đơn thuốc</th>
+                            <th>Ngày kê đơn</th>
+                            <th>Tổng tiền thuốc</th>
+                            <th>Chi tiết(DO NOT CLICK)</th>
                         </tr>
-                        {medi
-                            .slice(pageNumber * 15, (pageNumber + 1) * 15)
+                        {medicineData
                             .map((val, index) => (
                                 <tr>
                                     <td>{index + 1}</td>
@@ -45,9 +44,9 @@ function TableHome({ medi, pageNumber }) {
                         </thead>
                     </table>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
 
-export default TableHome;
+export default ViewMedicine;

@@ -1,23 +1,34 @@
-import { useState } from "react";
+import {useState, useEffect} from 'react'
 import React from 'react';
-import "./Styles.css"
 
 import HandleTime from "./func";
 
-function TableHome({ children }) {
+function TableHome() {
+    const [ works, setWorks ] = useState([]);
+    const [ month, setMonth ] = useState(1);
+
+    const fetchData = async () => {
+        try {
+            console.log(month);
+            const result = await fetch(`http://localhost:3000?month=${month}`);
+            const jsonData = await result.json();
+            setWorks(jsonData);
+            // console.log(works);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        console.log(month)
+        fetchData();
+    }, [month]);
+
     return (
-        <div className="container w-[1080px] h-[850px] rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)] h-full">
+        <div className="container w-[1080px] h-[835px] rounded-[47px] bg-[#ffffff] shadow-[0px_4px_15px_0px_rgba(216,210,252,0.64)] h-full">
             <div className="flex justify-between mx-10 mt-7 mb-5">
-                {/* <div className="button-section flex"> */}
-                    <div className="w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]]">Bác sĩ</div>
-                {/* </div> */}
-                {/* <div className="right-section gap-[16px] flex items-center content-end">
-                    <button className="w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] focus:bg-[#E9EFFF] focus:shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" >&lt;</button>
-                    <button className="w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] focus:bg-[#E9EFFF] focus:shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]" >&gt;</button>
-                    <div className="w-[250px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px] focus:bg-[#E9EFFF] focus:shadow-[0_4px_15px_0px_rgba(216,210,252,0.64)]">
-                    </div>
-                </div> */}
-                <HandleTime>
+                <div className="w-[116px] h-[44px] text-[#032B91] text-2xl font-bold leading-9 px-5 py-1 rounded-[20px]]">Bác sĩ</div>
+                <HandleTime month={month} setMonth={(mon) => setMonth(mon)} >
                 </HandleTime>
             </div>
             <div className="body">
@@ -25,87 +36,26 @@ function TableHome({ children }) {
                     <table className="w-[1000px] h-[761] justify-between">
                         <thead>
                         <tr class="tabletitle">
-                            {/* cần code thêm JS để hiển thị tối đa 10 dòng */}
                             <th>STT</th>
                             <th>Mã số</th>
                             <th>Tên</th>
                             <th>Tổng số lịch hẹn</th>
                             <th>Tổng số dịch vụ</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>#001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>10 lịch hẹn</td>
-                            <td>5 dịch vụ</td>
-                        </tr>
+                        {works
+                            .map((val, index) => {
+                                if(index < 10) return (
+                                <tr>
+                                    <td>{index + 1}</td>
+                                    <td>{val.DoctorID}</td>
+                                    <td>{val.LastName} {val.FirstName}</td>
+                                    <td>{val.AppointmentCount}</td>
+                                    <td>{val.ServiceCount}</td>
+                                </tr>
+                        )})}    
                         </thead>
                     </table>
                 </div>
-                {children}
             </div>
         </div>
     )

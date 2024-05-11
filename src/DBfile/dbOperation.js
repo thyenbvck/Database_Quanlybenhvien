@@ -4,7 +4,7 @@ const config = require("./dbConfig"),
 const getEmployees = async () => {
   try {
     let pool = await sql.connect(config);
-    let employees = await pool.request().query("SELECT * FROM nhan_vien");
+    let employees = await pool.request().query("SELECT * FROM nhan_vien WHERE is_delete='0'");
     return employees.recordset;
   } catch (error) {
     console.log(error);
@@ -16,12 +16,24 @@ const getEmployeeByID = async (ID) => {
     const pool = await sql.connect(config);
     const employee = await pool
       .request()
-      .query(`SELECT * FROM nhan_vien WHERE Ma_so_nhan_vien = '${ID}'`);
+      .query(`SELECT * FROM nhan_vien WHERE Ma_so_nhan_vien = '${ID}' AND is_delete = '0'`);
     return employee.recordset;
   } catch (error) {
     console.log(error);
   }
 };
+
+const getPatientByID = async (ID) => {
+  try {
+    const pool = await sql.connect(config);
+    const patient = await pool
+      .request()
+      .query(`SELECT * FROM benh_nhan WHERE Ma_benh_nhan = '${ID}'`);
+    return patient.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const createEmployees = async (Employee) => {
   try {
@@ -38,6 +50,8 @@ const createEmployees = async (Employee) => {
       .input("Ngay_ky_hop_dong", Employee.Ngay_ky_hop_dong)
       .input("Luong", Employee.Luong)
       .input("Ngay_sinh", Employee.Ngay_sinh)
+      .input("SĐT", Employee.SDT)
+      .input("is_delete", 0)
       .query(` INSERT INTO nhan_vien VALUES (
         @Ma_so_nhan_vien,
         @CCCD,
@@ -48,7 +62,9 @@ const createEmployees = async (Employee) => {
         @Email,
         @Ngay_ky_hop_dong,
         @Luong,
-        @Ngay_sinh
+        @Ngay_sinh,
+        @SDT,
+        @is_delete
       )`);
     return employees;
   } catch (error) {
@@ -56,29 +72,70 @@ const createEmployees = async (Employee) => {
   }
 };
 
-const createRoom = async (Room) => {
+// const deleteEmployee = async (ID, error) => {
+//   try {
+//     console.log("JOKER");
+//   } catch (error) {
+//     const pool = await sql.connect(config);
+//     await pool.request().query(``)
+//   }
+// }
+
+const updateEmployeeSalary = async (ID, increase) => {
   try {
-    let pool = await sql.connect(config);
-    let rooms = await pool
-      .request()
-      .input("So_phong", Room.So_phong)
-      .input("Loai_phong", Room.Loai_phong)
-      .input("So_luong_benh_nhan_hien_tai", Room.So_luong_benh_nhan_hien_tai)
-      .query(` INSERT INTO phong_benh VALUES (
-        @So_phong,
-        @Loai_phong,
-        @So_luong_benh_nhan_hien_tai
-      )`);
-    return rooms;
+    const pool = await sql.connect(config);
+    const exec = await pool.request().query(`
+                                DECLARE @newSalary INT;
+                                DECLARE @error_output_2 NVARCHAR(255);
+                                EXEC update_luong_nhan_vien 
+                                @Ma_so_nhan_vien = '${ID}',
+                                @Muc_tang = ${increase},
+                                @Luong_moi=@newSalary OUTPUT,
+                                @Error = @error_output_2 OUTPUT;
+                                PRINT @newSalary;
+                                PRINT @error_output_2;`
+                                );
+    console.log("SUCCESS");
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-const getPatients = async () => {
+
+// const createRoom = async (Room) => {
+//   try {
+//     let pool = await sql.connect(config);
+//     let rooms = await pool
+//       .request()
+//       .input("So_phong", Room.So_phong)
+//       .input("Loai_phong", Room.Loai_phong)
+//       .input("So_luong_benh_nhan_hien_tai", Room.So_luong_benh_nhan_hien_tai)
+//       .query(` INSERT INTO phong_benh VALUES (
+//         @So_phong,
+//         @Loai_phong,
+//         @So_luong_benh_nhan_hien_tai
+//       )`);
+//     return rooms;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// const getPatients = async () => {
+//   try {
+//     const pool = await sql.connect(config);
+//     const patients = await pool.request().query("SELECT * FROM benh_nhan");
+//     return patients.recordset;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const getPatients = async () => { //[GET] /patient
   try {
     const pool = await sql.connect(config);
-    const patients = await pool.request().query("SELECT * FROM benh_nhan");
+    const patients = await pool.request().query("SELECT * FROM Lan_kham_gan_nhat()");
+    console.log(patients);
     return patients.recordset;
   } catch (error) {
     console.log(error);
@@ -100,7 +157,7 @@ const getHistory = async (patientId) => {
     const pool = await sql.connect(config);
     const history = await pool
       .request()
-      .query(`SELECT * FROM lich_su_kham_benh(${patientId})`);
+      .query(`SELECT * FROM lich_su_kham_benh('${patientId}')`);
     return history.recordset;
   } catch (error) {
     throw error;
@@ -186,7 +243,7 @@ const getMedHistory = async (PatientID) => {
     const pool = await sql.connect(config);
     const medicines = await pool
       .request()
-      .query(`SELECT * FROM lich_su_don_thuoc(${PatientID})`);
+      .query(`SELECT * FROM lich_su_don_thuoc('${PatientID}')`);
     return medicines.recordset;
   } catch (error) {
     console.log(error);
@@ -218,10 +275,54 @@ const updateLuuTru = async (
   }
 };
 
+const getPatientByDocID = async (DocID) => {
+  try {
+    const pool = await sql.connect(config);
+    const list = await pool
+      .request()
+      .query(`SELECT Ma_so, Ho, Ten, Ngay, Ten_dich_vu
+              FROM lan_su_dung_dich_vu
+              JOIN lan_di_benh_vien
+              ON lan_su_dung_dich_vu.Ma_so_lan_di_benh_vien = lan_di_benh_vien.Ma_so_lan_di_benh_vien
+              JOIN benh_nhan
+              ON lan_di_benh_vien.Ma_benh_nhan = benh_nhan.Ma_benh_nhan
+              JOIN loai_dich_vu
+              ON lan_su_dung_dich_vu.Ma_loai_dich_vu = loai_dich_vu.Ma_loai_dich_vu
+              WHERE lan_su_dung_dich_vu.Ma_so_nhan_vien = '${DocID}'`);
+    return list.recordset;
+  } catch (error) {
+    console.log(error);
+  }
+};
+/* update đơn thuốc */
+const updatePrescription = async(id,Medicine)=>{
+  try {
+    let pool = await sql.connect(config);
+    for (let i = 0; i < Medicine.length; i++) {
+        const tenThuoc = Medicine[i].Ten;
+        const soLuong = Medicine[i].So_luong;
+        let result = await pool.request()
+            .input("id", sql.NVarChar(100), id)
+            .input("Ten_thuoc", sql.NVarChar(100), tenThuoc)
+            .input("So_luong", sql.Int, soLuong)
+            .query(`
+            UPDATE don_thuoc_gom_thuoc
+            SET So_luong = @So_luong
+            WHERE Ma_don_thuoc = @id
+            AND Ma_thuoc IN (
+                SELECT t.Ma_thuoc
+                FROM thuoc AS t
+                WHERE t.Ten = @Ten_thuoc
+            );
+            `);
+    }
+  }catch (error) {
+    console.log(error);
+  }
+}
 module.exports = {
   getEmployees,
   createEmployees,
-  createRoom,
   getPatients,
   getEmployeeByID,
   getMedicines,
@@ -233,4 +334,8 @@ module.exports = {
   getNearestList,
   getMedHistory,
   updateLuuTru,
+  getPatientByID,
+  getPatientByDocID,
+  updatePrescription,
+  updateEmployeeSalary
 };
